@@ -44,7 +44,8 @@ function App() {
             checked: false,
          }
          setTodos(todos.concat(todo))
-         nextId.current += 1 //nextId 1씩 더하기
+         nextId.current += 1 //nextId 1씩 더하기.
+         //me: ref.. 탐난다..자주쓰고싶다..
       },
       [todos] //얘도 status 변경되니까 잡아주면 좋음. useCallback은 react에 대한 이해도가 깊어야 사용할 수 있다고 한다. 컴포넌트 안에서 사용되는 것들은 항상 재랜더링 되기때문에 사용하는것이다.
    )
@@ -69,6 +70,7 @@ function App() {
             return todo.id === id ? { ...todo, checked: !todo.checked } : todo
          })
          //me:: todos를 update시켜서 자식컴포넌트가 뚜따뚜따하게 해준다.
+         //setTodos는 어떤 컴포넌트에서 바꿔도~ state 니까 모든 컴포넌트에 다~~ 적용이 되니까 최상단에서 만들어 전달하는 듯하다.
          setTodos(toggleTodos)
       },
       [todos]
