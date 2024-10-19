@@ -58,18 +58,28 @@ function App() {
             })
          )
       },
-      [todos] //얘도 status 변경되니까 잡아주면 좋음. useCallback은 react에 대한 이해도가 깊어야 사용할 수 있다고 한다. (me:: 예를들어 실행시킬때 굳이 해주지 않아도 될 것들을 한다던지, 해야할걸 못해서 값을 못불러온다던지 하는것들을 말하는들)컴포넌트 안에서 사용되는 것들은 항상 재랜더링 되기때문에 사용하는것이다.
+      [todos] //얘도 status 변경되니까 잡아주면 좋음. useCallback은 react에 대한 이해도가 깊어야 사용할 수 있다고 한다. (me:: 예를들어 재랜더링 될때 굳이 해주지 않아도 될 것들을 한다던지(최적화문제), 해야할걸 막아놔서 값을 못불러온다던지(큰일나는 문제) 하는것들을 말하는듯)컴포넌트 안에서 사용되는 것들은 항상 재랜더링 되기때문에 사용하는것이다.
    )
 
    //할 일 완료, 미완료
-   const onToggle = () => {}
+   const onToggle = useCallback(
+      (id) => {
+         const toggleTodos = todos.map((todo) => {
+            // todo들 중, id에 해당하는 객체를 만나면 checked를 반대로 바꿔서 덮어써준다.
+            return todo.id === id ? { ...todo, checked: !todo.checked } : todo
+         })
+         //me:: todos를 update시켜서 자식컴포넌트가 뚜따뚜따하게 해준다.
+         setTodos(toggleTodos)
+      },
+      [todos]
+   )
 
    return (
       <TodoTemplate>
          {/* TodoInsert는 onInsert가 발생 시 onInsert 함수를 props로 전달함 */}
          <TodoInsert onInsert={onInsert} />
          {/* todoList는 todos 값을 props로 전달함, 함수도 내부를 구성하는 컴포넌트에 전달할거기 떄문에 마찬가지로 props로 전달함. */}
-         <TodoList todos={todos} onRemove={onRemove} />
+         <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
       </TodoTemplate>
    )
 }
