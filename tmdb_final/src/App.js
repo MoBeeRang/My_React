@@ -4,6 +4,8 @@ import Detail from './pages/Detail'
 import MovieCategory from './pages/MovieCategory'
 import SearchResults from './pages/SearchResults'
 import NotFound from './pages/NotFound'
+import './styles/common.css'
+
 function App() {
    return (
       <Routes>
