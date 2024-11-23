@@ -1,5 +1,5 @@
 // 인기영화/ 현재 상영중인영화/ 개봉예정영화 를 한데 모아서 보여주는 곳
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchMovies } from '../features/movies/moviesSlice'
 
@@ -47,12 +47,12 @@ function MovieCategory({ category }) {
       dispatch(fetchMovies({ category, page: page[category] }))
    }, [dispatch, page])
 
-   const loadMore = () => {
+   const loadMore = useCallback(() => {
       setPage((prevPage) => ({
          ...prevPage,
          [category]: prevPage[category] + 1,
       }))
-   }
+   }, [category])
 
    return (
       <Wrap>

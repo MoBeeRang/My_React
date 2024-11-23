@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 //useSearchParams:: 쿼리스트링 내용을 가져올 수 있다.
 import { useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,10 +32,11 @@ function SearchResults() {
          dispatch(fetchSearchMovieResult({ query, page }))
       }
    }, [dispatch, page, query])
-   const loadMore = () => {
+
+   const loadMore = useCallback(() => {
       //더보기 누를때마다 page state가 1씩 증가
       setPage((prevPage) => prevPage + 1)
-   }
+   }, [])
 
    if (loading && page === 1) {
       return (
