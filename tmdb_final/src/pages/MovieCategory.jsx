@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 
 function MovieCategory({ category }) {
    const dispatch = useDispatch(fetchMovies())
-   const { movies } = useSelector((state) => state.movies)
+   const { movies, loading, error } = useSelector((state) => state.movies)
    const [page, setPage] = useState({
       popular: 1,
       now_playing: 1,
@@ -45,6 +45,8 @@ function MovieCategory({ category }) {
    //2번 유즈이팩트
    useEffect(() => {
       dispatch(fetchMovies({ category, page: page[category] }))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      /** eslint-disable-next-line react-hooks/exhaustive-deps 는 warning을 인지하고있으며, 의도된 조건등록임을 명시해줘서 warning을 안나오게 함 대신 다른사람이 이해하기 쉽게 왜 의존성을 뺐는지 이유를 적어야 한다.*/
    }, [dispatch, page])
 
    const loadMore = useCallback(() => {
@@ -54,6 +56,30 @@ function MovieCategory({ category }) {
       }))
    }, [category])
 
+   if (loading && page === 1) {
+      return (
+         <Wrap>
+            <Menu>
+               <Main>
+                  <h2>loading...</h2>
+               </Main>
+               <Footer></Footer>
+            </Menu>
+         </Wrap>
+      )
+   }
+   if (error) {
+      return (
+         <Wrap>
+            <Menu>
+               <Main>
+                  <h2>error...{error}</h2>
+               </Main>
+               <Footer></Footer>
+            </Menu>
+         </Wrap>
+      )
+   }
    return (
       <Wrap>
          <Menu />
