@@ -31,4 +31,38 @@ export const searchMovie = async (query, page = 1) => {
    })
    return response
 }
+
+//영화 상세정보 가져오는 요청
+export const getMovieDetails = async (MovieId) => {
+   //  https://api.themoviedb.org/3/movie/515616?language=ko-KR
+   const response = await tmdbApi.get(`/movie/${MovieId}`, {
+      params: {
+         language: 'ko-KR',
+      },
+   })
+   return response
+}
+//영화 상세정보 가져오는 요청
+export const getMovieCredits = async (MovieId) => {
+   //  https://api.themoviedb.org/3/movie/515616?language=ko-KR
+   const response = await tmdbApi.get(`/movie/${MovieId}/credits`, {
+      params: {
+         language: 'ko-KR',
+      },
+   })
+   return response
+}
+
+//영화 카테고별 정보 가져오는 요청:: popular
+export const getMovies = async (category = 'popular', page = 1) => {
+   // ?language=ko-KR&page=1&region=KR
+   const response = await tmdbApi.get(`/movie/${category}`, {
+      params: {
+         page,
+         language: 'ko-KR',
+         region: 'KR',
+      },
+   })
+   return response //영화데이터
+}
 export default tmdbApi
